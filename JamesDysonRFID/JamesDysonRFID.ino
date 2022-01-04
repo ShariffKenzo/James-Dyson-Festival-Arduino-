@@ -8,15 +8,11 @@
  
 #include <SPI.h>
 #include <MFRC522.h>
-#include <ezBuzzer.h> // ezBuzzer library
  
 #define SS_PIN 10
 #define RST_PIN 9
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
-const int BUZZER_PIN = 7;
-int lastButtonState = HIGH;
-ezBuzzer buzzer(BUZZER_PIN);
-
+ 
 void setup() 
 {
   Serial.begin(9600);   // Initiate a serial communication
@@ -24,8 +20,6 @@ void setup()
   mfrc522.PCD_Init();   // Initiate MFRC522
   Serial.println("Approximate your card to the reader...");
   Serial.println();
-
-  
 
 }
 void loop() 
@@ -54,32 +48,12 @@ void loop()
   Serial.println();
   Serial.print("Message : ");
   content.toUpperCase();
-  if (content.substring(1) == "B3 A4 04 97" || content.substring(1) == "93 4B 79 0A") //change here the UID of the card/cards that you want to give access  93 4B 79 0A
-
+  if (content.substring(1) == "BD 31 15 2B") //change here the UID of the card/cards that you want to give access
   {
     Serial.println("Authorized access");
     Serial.println();
-   // pinMode(7, OUTPUT);
-    //digitalWrite(7,HIGH);
-    
     delay(3000);
-
-
-    buzzer.loop(); // MUST call the buzzer.loop() function in loop()
-
- 
-
-  if (lastButtonState == HIGH && currentState == LOW) {
-    Serial.println("The button is pressed");
-    buzzer.beep(100); // generates a 100ms beep
   }
-
-
- //   digitalWrite(7,LOW);
-    
-  }
-
-  
  
  else   {
     Serial.println(" Access denied");
